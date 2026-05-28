@@ -1,25 +1,54 @@
+-- Memastikan game benar-benar siap
 if not game:IsLoaded() then
     game.Loaded:Wait()
 end
 
--- Masukkan ID Game/Universe VD kamu di sini
+-- ID Violence District yang kamu berikan
 local gameVibeDungeonID = 93978595733734 
 
-local function MuatScript()
-    if tostring(game.PlaceId) == tostring(gameVibeDungeonID) or game.GameId == gameVibeDungeonID then
-        print("[CHOCO-X-HUB] Game Violence District Terdeteksi!")
-        print("Menunggu 5 detik agar game stabil sebelum memuat script...")
-        
-        task.wait(5) -- << TAMBAHAN: Memberi jeda 5 detik agar game stabil dulu
-        
-        loadstring(game:HttpGet("https://raw.githubusercontent.com/CHOCOxHUB/example/refs/heads/main/CHOCOxHUB-ViolenceDistrict.lua"))()
+-- Fungsi untuk mengambil kode script dari GitHub dengan aman
+local function ambilScript(url)
+    local success, scriptContent = pcall(function()
+        return game:HttpGet(url)
+    end)
+    if success then
+        return scriptContent
     else
-        print("[CHOCO-X-HUB] Memuat Script Universal (Auto-Walk)...")
-        loadstring(game:HttpGet("https://raw.githubusercontent.com/CHOCOxHUB/example/refs/heads/main/CHOCO-X-HUB-Auto-Walk.lua"))()
+        return nil
     end
 end
 
-local success, err = pcall(MuatScript)
-if not success then
-    warn("[CHOCO-X-HUB Error]: " .. tostring(err))
+-- Cek kecocokan Game ID / Place ID
+if tostring(game.PlaceId) == tostring(gameVibeDungeonID) or game.GameId == gameVibeDungeonID then
+    print("[CHOCO-X-HUB] Menghubungkan ke Violence District...")
+    
+    -- Ambil teks mentah dari github terlebih dahulu (tidak langsung dieksekusi)
+    local rawScript = ambilScript("https://raw.githubusercontent.com/CHOCOxHUB/example/refs/heads/main/CHOCOxHUB-ViolenceDistrict.lua")
+    
+    if rawScript then
+        -- Bungkus loadstring ke dalam pcall terpisah agar jika isinya merusak eksekutor, game tidak crash
+        local loaded, func = pcall(loadstring, rawScript)
+        if loaded and func then
+            local executed, err = pcall(func)
+            if not executed then
+                warn("[CHOCO-X-HUB] Script VD bermasalah saat dijalankan: " .. tostring(err))
+            end
+        else
+            warn("[CHOCO-X-HUB] Eksekutor kamu tidak mampu membaca syntax di script VD.")
+        end
+    else
+        warn("[CHOCO-X-HUB] Gagal mengambil data dari GitHub VD.")
+    end
+
+else
+    -- Jalankan Script Universal jika game lain
+    print("[CHOCO-X-HUB] Memuat Script Universal (Auto-Walk)...")
+    local rawUniversal = ambilScript("https://raw.githubusercontent.com/CHOCOxHUB/example/refs/heads/main/CHOCO-X-HUB-Auto-Walk.lua")
+    
+    if rawUniversal then
+        local loaded, func = pcall(loadstring, rawUniversal)
+        if loaded and func then
+            pcall(func)
+        end
+    end
 end
