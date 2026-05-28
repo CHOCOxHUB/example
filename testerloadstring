@@ -1,9 +1,8 @@
--- Tunggu game sampai siap
+
 if not game:IsLoaded() then
     game.Loaded:Wait()
 end
 
--- Ganti angka ini dengan ID asli game VD kamu
 local gameVibeDungeonID = 93978595733734
 
 local function MuatScript()
@@ -16,5 +15,5 @@ local function MuatScript()
     end
 end
 
--- Eksekusi dengan aman
+
 pcall(MuatScript)
