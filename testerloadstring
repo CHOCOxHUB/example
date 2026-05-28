@@ -3,18 +3,23 @@ if not game:IsLoaded() then
     game.Loaded:Wait()
 end
 
--- Ganti angka ini dengan ID asli game VD kamu
-local gameVibeDungeonID = 93978595733734
+-- FIX: Pastikan angka di bawah ini adalah "PLACE ID" (bisa dilihat di URL browser saat buka game)
+-- Contoh URL: roblox.com/games/185655149/Violence-District -> Maka ID-nya: 185655149
+local gameVibeDungeonID = 93978595733734 -- <-- GANTI dengan Place ID yang benar jika ini salah
 
 local function MuatScript()
-    if game.PlaceId == gameVibeDungeonID then
-        -- Jika game yang dibuka adalah VD, load script khusus VD
+    -- Menggunakan tostring() agar pencocokan ID berupa teks, jauh lebih aman dari error angka kepanjangan
+    if tostring(game.PlaceId) == tostring(gameVibeDungeonID) or game.GameId == gameVibeDungeonID then
+        print("[CHOCO-X-HUB] Game Violence District Terdeteksi!")
         loadstring(game:HttpGet("https://raw.githubusercontent.com/CHOCOxHUB/example/refs/heads/main/CHOCOxHUB-ViolenceDistrict.lua"))()
     else
-        -- Jika game selain VD, load script universal
+        print("[CHOCO-X-HUB] Memuat Script Universal (Auto-Walk)...")
         loadstring(game:HttpGet("https://raw.githubusercontent.com/CHOCOxHUB/example/refs/heads/main/CHOCO-X-HUB-Auto-Walk.lua"))()
     end
 end
 
--- Eksekusi dengan aman
-pcall(MuatScript)
+-- Eksekusi dengan aman, jika ada error di dalam script github, akan dimunculkan di F9 Console
+local success, err = pcall(MuatScript)
+if not success then
+    warn("[CHOCO-X-HUB Error]: " .. tostring(err))
+end
