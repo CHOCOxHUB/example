@@ -5,14 +5,23 @@ end
 local gameVibeDungeonID = 93978595733734
 
 local function MuatScript()
-    if game.PlaceId == gameVibeDungeonID then
-        -- Jika game yang dibuka adalah VD, load script khusus VD
-        loadstring(game:HttpGet("https://raw.githubusercontent.com/CHOCOxHUB/example/refs/heads/main/CHOCOxHUB-ViolenceDistrict.lua"))()
-    else
-        -- Jika game selain VD, load script universal
-        loadstring(game:HttpGet("https://raw.githubusercontent.com/CHOCOxHUB/example/refs/heads/main/CHOCO-X-HUB-Auto-Walk.lua"))()
-    end
+    -- Menggunakan task.spawn agar berjalan di background thread dan tidak membuat game freeze
+    task.spawn(function()
+        if game.PlaceId == gameVibeDungeonID then
+            -- Jika game yang dibuka adalah VD, load script khusus VD
+            local success, scriptData = pcall(game.HttpGet, game, "https://raw.githubusercontent.com/CHOCOxHUB/example/refs/heads/main/CHOCOxHUB-ViolenceDistrict.lua")
+            if success then
+                loadstring(scriptData)()
+            end
+        else
+            -- Jika game selain VD, load script universal
+            local success, scriptData = pcall(game.HttpGet, game, "https://raw.githubusercontent.com/CHOCOxHUB/example/refs/heads/main/CHOCO-X-HUB-Auto-Walk.lua")
+            if success then
+                loadstring(scriptData)()
+            end
+        end
+    end)
 end
 
-
+-- Menjalankan fungsi utama dengan aman
 pcall(MuatScript)
