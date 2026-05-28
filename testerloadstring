@@ -1,0 +1,20 @@
+-- Tunggu game sampai siap
+if not game:IsLoaded() then
+    game.Loaded:Wait()
+end
+
+-- Ganti angka ini dengan ID asli game VD kamu
+local gameVibeDungeonID = 93978595733734
+
+local function MuatScript()
+    if game.PlaceId == gameVibeDungeonID then
+        -- Jika game yang dibuka adalah VD, load script khusus VD
+        loadstring(game:HttpGet("https://raw.githubusercontent.com/CHOCOxHUB/example/refs/heads/main/CHOCOxHUB-ViolenceDistrict.lua"))()
+    else
+        -- Jika game selain VD, load script universal
+        loadstring(game:HttpGet("https://raw.githubusercontent.com/CHOCOxHUB/example/refs/heads/main/CHOCO-X-HUB-Auto-Walk.lua"))()
+    end
+end
+
+-- Eksekusi dengan aman
+pcall(MuatScript)
