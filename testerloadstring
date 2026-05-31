@@ -4,7 +4,7 @@ end
 
 -- Daftar ID Game
 local gameVibeDungeonID = 93978595733734
-local gameEvadeID  = 124853293317687
+local gameEvadeID  = 9872472334
 
 local function MuatScript()
     if game.PlaceId == gameVibeDungeonID then
