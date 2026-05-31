@@ -4,16 +4,16 @@ end
 
 -- Daftar ID Game
 local gameVibeDungeonID = 93978595733734
-local gameK2ClimbingID  = 124853293317687
+local gameEvadeID  = 124853293317687
 
 local function MuatScript()
     if game.PlaceId == gameVibeDungeonID then
         -- Load script khusus Vibe Dungeon
         loadstring(game:HttpGet("https://raw.githubusercontent.com/CHOCOxHUB/example/refs/heads/main/CHOCOxHUB-ViolenceDistrict.lua"))()
         
-    elseif game.PlaceId == gameK2ClimbingID then
-        -- Load script khusus K2 Climbing (Silakan sesuaikan nama filenya jika berbeda)
-        loadstring(game:HttpGet("https://raw.githubusercontent.com/CHOCOxHUB/example/refs/heads/main/CHOCOxHUB-K2-Climbing.lua"))()
+    elseif game.PlaceId == gameEvadeID then
+        -- Load script khusus Evade (Silakan sesuaikan nama filenya jika berbeda)
+        loadstring(game:HttpGet("https://raw.githubusercontent.com/CHOCOxHUB/example/refs/heads/main/CHOCOxHUB-Evade.lua"))()
         
     else
         -- Script universal
